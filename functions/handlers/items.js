@@ -43,7 +43,7 @@ exports.addItem = (req, res) => {
 	}
 
 	db.collection(`${req.user.email.split('@')[0]}`).add(item)
-		.then(doc => { 
+		.then(doc => {
 			item.itemId = doc.id
 			return res.json(item)
 		})
@@ -111,5 +111,22 @@ exports.deleteItem = (req,res) => {
 		.catch(err => {
 			console.log(err)
 			res.status(400).json({ error: err })
+		})
+}
+
+exports.getUserData = (req, res) => {
+	let item = {}
+	db.doc(`/${req.user.email.split('@')[0]}/mainInfo`)
+		.get()
+		.then(doc => {
+			if (!doc.exists) {
+				return res.status(404).json({ error: 'info not found' })
+			}
+			item = { ...doc.data() }
+			return res.json(item)
+		})
+		.catch(err => {
+			console.log('err: ', err)
+			return res.status(500).json({ error: err.code })
 		})
 }
