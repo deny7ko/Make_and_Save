@@ -131,3 +131,20 @@ exports.uploadImage = (req, res) => {
 	});
 	busboy.end(req.rawBody);
 };
+
+exports.getUserData = (req, res) => {
+	let item = {}
+	db.doc(`/${req.user.email.split('@')[0]}/mainInfo`)
+		.get()
+		.then(doc => {
+			if (!doc.exists) {
+				return res.status(404).json({ error: 'info not found' })
+			}
+			item = { ...doc.data() }
+			return res.json(item)
+		})
+		.catch(err => {
+			console.log('err: ', err)
+			return res.status(500).json({ error: err.code })
+		})
+}

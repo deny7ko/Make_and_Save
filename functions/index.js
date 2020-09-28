@@ -2,9 +2,10 @@ const functions = require('firebase-functions');
 const app = require('express')()
 const DBAuth = require('./utilits/DBAuth')
 const { db } = require('./utilits/config')
-const { getItems, addItem, getItem, updateItem, deleteItem } = require('./handlers/items')
+const { getItems, addItem, getItem, updateItem, deleteItem, getUserData } = require('./handlers/items')
 const { signUp, login, uploadImage } = require('./handlers/user')
-const cors = require('cors')
+const cors = require('cors');
+// const { getUserData } = require('../src/redux/actions/userActions');
 app.use(cors())
 
 // item Routes
@@ -18,7 +19,8 @@ app.delete('/item/:itemId', DBAuth, deleteItem)
 app.post('/signup', signUp)
 app.post('/login', login)
 app.post('/uploadImage', DBAuth, uploadImage)
-app.get('/user', DBAuth, (req,res) => {
+app.get('/user', DBAuth, getUserData)
+/* (req,res) => {
 	let item = {}
 	db.doc(`/${req.user.email.split('@')[0]}/mainInfo`)
 		.get()
@@ -33,6 +35,6 @@ app.get('/user', DBAuth, (req,res) => {
 			console.log('err: ', err)
 			return res.status(500).json({ error: err.code })
 		})
-})
+}) */
 
 exports.api = functions.https.onRequest(app)

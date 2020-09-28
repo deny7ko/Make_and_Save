@@ -13,8 +13,8 @@ import store from './redux/store'
 import { SET_AUTHENTICATED } from './redux/types'
 import { logOutUser, getUserData } from './redux/actions/userActions'
 
-axios.defaults.baseURL = "https://us-central1-make-and-save-c1e7a.cloudfunctions.net/api"
-// axios.defaults.baseURL = "http://localhost:5000/make-and-save-c1e7a/us-central1/api"
+// axios.defaults.baseURL = "https://us-central1-make-and-save-c1e7a.cloudfunctions.net/api"
+axios.defaults.baseURL = "http://localhost:5000/make-and-save-c1e7a/us-central1/api"
 
 const token = localStorage.DBAuthToken || undefined
 if (token) {
